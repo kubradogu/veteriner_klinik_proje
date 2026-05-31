@@ -41,11 +41,11 @@ def sorgu_calistir(conn, sql, baslik, params=None):
                              tablefmt="grid", numalign="right",
                              stralign="left"))
             else:
-                print("\n⚠️  Sonuç bulunamadı.")
+                print("\n  Sonuç bulunamadı.")
 
         cur.close()
     except Exception as e:
-        print(f"\n❌ HATA: {e}")
+        print(f"\n HATA: {e}")
 
 
 # ═══════════════════════════════════════════════════════════
@@ -123,10 +123,10 @@ def sorgu_4(conn):
            i.son_kullanma_tarihi AS skt,
            t.firma_adi AS tedarikci,
            CASE
-               WHEN i.son_kullanma_tarihi < CURRENT_DATE THEN '⛔ SURESI GECMIS'
-               WHEN i.son_kullanma_tarihi < CURRENT_DATE + 30 THEN '⚠️  SON 30 GUN'
-               WHEN i.stok_miktari <= i.kritik_stok_seviyesi THEN '🟡 KRITIK STOK'
-               ELSE '✅ NORMAL'
+               WHEN i.son_kullanma_tarihi < CURRENT_DATE THEN ' SURESI GECMIS'
+               WHEN i.son_kullanma_tarihi < CURRENT_DATE + 30 THEN '  SON 30 GUN'
+               WHEN i.stok_miktari <= i.kritik_stok_seviyesi THEN ' KRITIK STOK'
+               ELSE ' NORMAL'
            END AS uyari
     FROM ilac i
     LEFT JOIN tedarikci t ON i.tedarikci_id = t.tedarikci_id
@@ -245,8 +245,8 @@ def sorgu_10(conn):
            lt.referans_deger_ust AS ref_ust,
            lt.birim,
            CASE
-               WHEN lt.sonuc::DECIMAL < lt.referans_deger_alt THEN '⬇️  DUSUK'
-               WHEN lt.sonuc::DECIMAL > lt.referans_deger_ust THEN '⬆️  YUKSEK'
+               WHEN lt.sonuc::DECIMAL < lt.referans_deger_alt THEN '  DUSUK'
+               WHEN lt.sonuc::DECIMAL > lt.referans_deger_ust THEN '  YUKSEK'
                ELSE 'NORMAL'
            END AS durum
     FROM lab_test lt
@@ -274,15 +274,15 @@ def test_ik3_stoksuz_ilac(conn):
         cur = conn.cursor()
         cur.execute("UPDATE ilac SET stok_miktari = 0 WHERE ilac_id = 15;")
         conn.commit()
-        print("\n📦 'Eski İlaç A' ilacının stoğu 0'a indirildi.")
+        print("\n 'Eski İlaç A' ilacının stoğu 0'a indirildi.")
 
         # Şimdi reçete yazmayı deneyelim
         cur.execute("CALL sp_recete_yaz(1, 15, '500mg', 'Günde 2 kez', 7);")
         conn.commit()
-        print("\n✅ Reçete oluşturuldu (HATA! Olmamalıydı)")
+        print("\n Reçete oluşturuldu (HATA! Olmamalıydı)")
     except Exception as e:
         conn.rollback()
-        print(f"\n✅ BAŞARI: Procedure hata fırlattı (beklenen davranış):")
+        print(f"\n BAŞARI: Procedure hata fırlattı (beklenen davranış):")
         print(f"   {e}")
 
         # Stoğu eski haline döndür
@@ -302,7 +302,7 @@ def test_ik2_hayvan_silme(conn):
         # Önce hayvanın durumunu görelim
         cur.execute("SELECT ad, durum FROM hayvan WHERE hayvan_id = 1;")
         ad, durum = cur.fetchone()
-        print(f"\n📋 Önce: Hayvan '{ad}', Durum: {durum}")
+        print(f"\n Önce: Hayvan '{ad}', Durum: {durum}")
 
         # Silme denemesi
         cur.execute("DELETE FROM hayvan WHERE hayvan_id = 1;")
@@ -313,7 +313,7 @@ def test_ik2_hayvan_silme(conn):
         result = cur.fetchone()
         if result:
             ad, durum = result
-            print(f"\n✅ BAŞARI: Hayvan silinmedi, durumu güncellendi.")
+            print(f"\n BAŞARI: Hayvan silinmedi, durumu güncellendi.")
             print(f"   Sonra: Hayvan '{ad}', Durum: {durum}")
 
         # Log kaydını göster
@@ -333,11 +333,11 @@ def test_ik2_hayvan_silme(conn):
         # Hayvanı tekrar aktif yapalım
         cur.execute("UPDATE hayvan SET durum = 'Aktif' WHERE hayvan_id = 1;")
         conn.commit()
-        print(f"\n♻️  Hayvan tekrar Aktif duruma getirildi.")
+        print(f"\n  Hayvan tekrar Aktif duruma getirildi.")
 
     except Exception as e:
         conn.rollback()
-        print(f"\n❌ HATA: {e}")
+        print(f"\n HATA: {e}")
 
 
 def test_ik1_randevu_limit(conn):
@@ -364,10 +364,10 @@ def test_ik1_randevu_limit(conn):
             """)
             conn.commit()
 
-        print(f"\n✅ 15 randevu başarıyla eklendi.")
+        print(f"\n 15 randevu başarıyla eklendi.")
 
         # 16. randevu - HATA vermeli
-        print(f"\n🚫 16. randevu ekleniyor (HATA vermeli)...")
+        print(f"\n 16. randevu ekleniyor (HATA vermeli)...")
         cur.execute("""
             CALL sp_randevu_olustur(
                 '2026-06-01 17:00:00'::TIMESTAMP,
@@ -379,7 +379,7 @@ def test_ik1_randevu_limit(conn):
 
     except Exception as e:
         conn.rollback()
-        print(f"\n✅ BAŞARI: 16. randevu engellenmiş!")
+        print(f"\n BAŞARI: 16. randevu engellenmiş!")
         print(f"   {e}")
 
         # Temizle
@@ -404,8 +404,8 @@ def test_transaction(conn):
         cur.execute("SELECT COUNT(*) FROM fatura;")
         eski_fatura_sayisi = cur.fetchone()[0]
 
-        print(f"📦 Başlangıç stok: {eski_stok}")
-        print(f"📄 Başlangıç fatura sayısı: {eski_fatura_sayisi}")
+        print(f" Başlangıç stok: {eski_stok}")
+        print(f" Başlangıç fatura sayısı: {eski_fatura_sayisi}")
 
         # TRANSACTION
         conn.autocommit = False
@@ -418,11 +418,11 @@ def test_transaction(conn):
             RETURNING muayene_id;
         """)
         yeni_muayene_id = cur.fetchone()[0]
-        print(f"\n1️⃣  Muayene oluşturuldu (ID: {yeni_muayene_id})")
+        print(f"\n1️  Muayene oluşturuldu (ID: {yeni_muayene_id})")
 
         # 2. Reçete + Stok düşür
         cur.execute("CALL sp_recete_yaz(%s, 1, '500mg', 'Günde 2 kez', 7);", (yeni_muayene_id,))
-        print(f"2️⃣  Reçete yazıldı + Stok düşürüldü")
+        print(f"2️  Reçete yazıldı + Stok düşürüldü")
 
         # 3. Fatura
         cur.execute("""
@@ -431,11 +431,11 @@ def test_transaction(conn):
             RETURNING fatura_id;
         """, (yeni_muayene_id,))
         yeni_fatura_id = cur.fetchone()[0]
-        print(f"3️⃣  Fatura oluşturuldu (ID: {yeni_fatura_id})")
+        print(f"3️  Fatura oluşturuldu (ID: {yeni_fatura_id})")
 
         # COMMIT
         conn.commit()
-        print(f"\n✅ COMMIT - Tüm işlemler başarıyla kaydedildi!")
+        print(f"\n COMMIT - Tüm işlemler başarıyla kaydedildi!")
 
         # Sonuçları göster
         cur.execute("SELECT stok_miktari FROM ilac WHERE ilac_id = 1;")
@@ -443,15 +443,15 @@ def test_transaction(conn):
         cur.execute("SELECT COUNT(*) FROM fatura;")
         yeni_fatura_sayisi = cur.fetchone()[0]
 
-        print(f"\n📦 Yeni stok: {yeni_stok} (azalma: {eski_stok - yeni_stok})")
-        print(f"📄 Yeni fatura sayısı: {yeni_fatura_sayisi} (artış: {yeni_fatura_sayisi - eski_fatura_sayisi})")
+        print(f"\n Yeni stok: {yeni_stok} (azalma: {eski_stok - yeni_stok})")
+        print(f" Yeni fatura sayısı: {yeni_fatura_sayisi} (artış: {yeni_fatura_sayisi - eski_fatura_sayisi})")
 
         conn.autocommit = True
 
     except Exception as e:
         conn.rollback()
         conn.autocommit = True
-        print(f"\n❌ ROLLBACK - Hata oluştu, tüm işlemler geri alındı:")
+        print(f"\n ROLLBACK - Hata oluştu, tüm işlemler geri alındı:")
         print(f"   {e}")
 
 
@@ -459,10 +459,10 @@ def view_test(conn):
     """Görünüm testleri"""
     baslik_yaz("TEST: Görünümler (Views)")
 
-    print("\n📋 View 1: v_hayvan_detay (Aktif hayvanlar + sahip bilgisi)")
+    print("\n View 1: v_hayvan_detay (Aktif hayvanlar + sahip bilgisi)")
     sorgu_calistir(conn, "SELECT * FROM v_hayvan_detay LIMIT 10;", "v_hayvan_detay")
 
-    print("\n📋 View 2: v_personel_ozet (Maaş GİZLİ)")
+    print("\n View 2: v_personel_ozet (Maaş GİZLİ)")
     sorgu_calistir(conn, "SELECT * FROM v_personel_ozet;", "v_personel_ozet")
 
 
@@ -518,7 +518,7 @@ def main():
     try:
         conn = get_connection()
         conn.autocommit = True
-        print("✅ Bağlandı!\n")
+        print(" Bağlandı!\n")
     except Exception:
         return
 
@@ -539,13 +539,13 @@ def main():
         secim = input("\n  Seçiminiz: ").strip()
 
         if secim == "0":
-            print("\n👋 Görüşmek üzere!")
+            print("\n Görüşmek üzere!")
             break
         elif secim in sorgular:
             sorgular[secim](conn)
             input("\n\n   ↩️  Devam etmek için ENTER'a basın...")
         else:
-            print("\n  ⚠️  Geçersiz seçim! Lütfen tekrar deneyin.")
+            print("\n    Geçersiz seçim! Lütfen tekrar deneyin.")
 
     conn.close()
 
