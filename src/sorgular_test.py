@@ -208,21 +208,21 @@ def sorgu_calistir(conn, baslik, sql):
             if len(sonuclar) > 25:
                 print(f"\n  ... ({len(sonuclar) - 25} sonuç daha)")
         else:
-            print("\n  ⚠️  Sonuç bulunamadı.")
+            print("\n    Sonuç bulunamadı.")
         cur.close()
     except Exception as e:
-        print(f"\n  ❌ HATA: {e}")
+        print(f"\n   HATA: {e}")
 
 
 def main():
     print("\n" + "═"*80)
-    print("  🧪 10 KARMAŞIK SORGU TESTİ")
+    print("   10 KARMAŞIK SORGU TESTİ")
     print("═"*80)
 
     try:
         conn = get_connection()
         conn.autocommit = True
-        print("\n✅ Veritabanına bağlandı.")
+        print("\n Veritabanına bağlandı.")
     except Exception:
         return
 
@@ -230,7 +230,7 @@ def main():
         sorgu_calistir(conn, baslik, sql)
 
     print(f"\n{'═'*80}")
-    print("  ✅ TÜM SORGULAR TAMAMLANDI!")
+    print("   TÜM SORGULAR TAMAMLANDI!")
     print(f"{'═'*80}\n")
 
     conn.close()
