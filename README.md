@@ -2,7 +2,7 @@
 
 İleri Veri Tabanı Sistemleri Dersi Projesi - PostgreSQL + Python
 
-## 📁 Proje Yapısı
+##  Proje Yapısı
 
 ```
 veteriner_klinik_proje/
@@ -23,7 +23,7 @@ veteriner_klinik_proje/
 └── README.md
 ```
 
-## 🚀 Kurulum Adımları (PyCharm)
+##  Kurulum Adımları (PyCharm)
 
 ### 1. PostgreSQL Kurulumu
 - PostgreSQL 16.x indir: https://www.postgresql.org/download/
@@ -73,14 +73,14 @@ PyCharm'da `setup_database.py` dosyasını çalıştır (Sağ tık > Run):
 ## 🧪 Test Senaryoları
 
 `main.py` menüsünden test edilebilecek özellikler:
-1. ✅ Sorgu 1-10 (Hastalık dağılımı, aşı gecikme, performans vb.)
-2. ✅ İK-1: Randevu limiti (15 aşımı)
-3. ✅ İK-2: Hayvan silme koruması (soft delete)
-4. ✅ İK-3: Stoksuz ilaç reçete engeli
-5. ✅ İK-5: Fatura trigger'ı
-6. ✅ Transaction senaryosu (BEGIN/COMMIT)
+1.  Sorgu 1-10 (Hastalık dağılımı, aşı gecikme, performans vb.)
+2.  İK-1: Randevu limiti (15 aşımı)
+3.  İK-2: Hayvan silme koruması (soft delete)
+4.  İK-3: Stoksuz ilaç reçete engeli
+5.  İK-5: Fatura trigger'ı
+6.  Transaction senaryosu (BEGIN/COMMIT)
 
-## 📊 Veritabanı İstatistikleri
+##  Veritabanı İstatistikleri
 - 20 tablo
 - 2 View
 - 2 Stored Procedure
