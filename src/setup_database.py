@@ -26,7 +26,7 @@ def read_sql_file(filename):
 def execute_sql_file(conn, filename, description):
     """SQL dosyasını çalıştırır."""
     print(f"\n{'='*60}")
-    print(f"📄 {description}")
+    print(f" {description}")
     print(f"   Dosya: {filename}")
     print(f"{'='*60}")
 
@@ -37,7 +37,7 @@ def execute_sql_file(conn, filename, description):
         cur.execute(sql_content)
         conn.commit()
         cur.close()
-        print(f"✅ Başarıyla çalıştırıldı.")
+        print(f" Başarıyla çalıştırıldı.")
         return True
     except Exception as e:
         conn.rollback()
@@ -48,7 +48,7 @@ def execute_sql_file(conn, filename, description):
 def show_table_stats(conn):
     """Tablolardaki kayıt sayılarını gösterir."""
     print(f"\n{'='*60}")
-    print(f"📊 VERİTABANI İSTATİSTİKLERİ")
+    print(f" VERİTABANI İSTATİSTİKLERİ")
     print(f"{'='*60}")
 
     tables = [
@@ -77,18 +77,18 @@ def main():
     # Bağlantı
     try:
         conn = get_connection()
-        print("\n✅ Veritabanına bağlandı.")
+        print("\n Veritabanına bağlandı.")
     except Exception:
         return
 
     # SQL dosyalarını sırayla çalıştır
     steps = [
-        ("01_ddl.sql", "1️⃣  TABLO OLUŞTURMA (DDL)"),
-        ("02_dml_veri.sql", "2️⃣  TEST VERİLERİ EKLEME (DML)"),
-        ("03_views.sql", "3️⃣  GÖRÜNÜMLER (VIEWS)"),
-        ("04_procedures.sql", "4️⃣  STORED PROCEDURE'LAR"),
-        ("05_triggers.sql", "5️⃣  TETİKLEYİCİLER (TRIGGERS)"),
-        ("06_indexes.sql", "6️⃣  İNDEKSLER (INDEXES)"),
+        ("01_ddl.sql", "1️  TABLO OLUŞTURMA (DDL)"),
+        ("02_dml_veri.sql", "2️  TEST VERİLERİ EKLEME (DML)"),
+        ("03_views.sql", "3️  GÖRÜNÜMLER (VIEWS)"),
+        ("04_procedures.sql", "4️  STORED PROCEDURE'LAR"),
+        ("05_triggers.sql", "5️  TETİKLEYİCİLER (TRIGGERS)"),
+        ("06_indexes.sql", "6️  İNDEKSLER (INDEXES)"),
     ]
 
     all_success = True
@@ -101,12 +101,12 @@ def main():
     if all_success:
         show_table_stats(conn)
         print(f"\n{'═'*60}")
-        print("  ✅ KURULUM BAŞARIYLA TAMAMLANDI!")
+        print("   KURULUM BAŞARIYLA TAMAMLANDI!")
         print(f"{'═'*60}")
-        print("\n🚀 Şimdi 'main.py' dosyasını çalıştırabilirsiniz.")
+        print("\n Şimdi 'main.py' dosyasını çalıştırabilirsiniz.")
     else:
         print(f"\n{'═'*60}")
-        print("  ❌ KURULUM SIRASINDA HATA OLUŞTU")
+        print("   KURULUM SIRASINDA HATA OLUŞTU")
         print(f"{'═'*60}")
 
     conn.close()
