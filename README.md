@@ -70,7 +70,7 @@ PyCharm'da `setup_database.py` dosyasını çalıştır (Sağ tık > Run):
 - İş kurallarını test edebilirsin (trigger, procedure)
 - Yeni randevu, reçete oluşturabilirsin
 
-## 🧪 Test Senaryoları
+##  Test Senaryoları
 
 `main.py` menüsünden test edilebilecek özellikler:
 1.  Sorgu 1-10 (Hastalık dağılımı, aşı gecikme, performans vb.)
